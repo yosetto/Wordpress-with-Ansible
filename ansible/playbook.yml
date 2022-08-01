@@ -1,11 +1,9 @@
 ---
 # WordPress playbook
-
 - hosts: all
-
-roles:
-- server
-- php
-- mysql
-- wordpress
+  roles:
+    - server
+    - php
+    - mysql
+    - wordpress
 
