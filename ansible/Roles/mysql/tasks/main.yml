@@ -1,0 +1,26 @@
+---
+# tasks file for mysql
+    - name: Install MySQL DB server
+      become: true
+      apt:
+        name: mysql-server
+        state: latest
+
+- name: install python-mysql package
+  apt:
+    name: python3-pymysql
+    update_cache: yes
+    cache_valid_time: 86400
+    state: present
+
+- name: Create mysql database
+mysql_db: name={{ wp_mysql_db }} state=present
+become: yes
+
+- name: Create mysql user
+mysql_user:
+ name={{ wp_mysql_user }}
+ password={{ wp_mysql_password }}
+ priv=*.*:ALL
+become: yes
+
