@@ -11,11 +11,11 @@
   command: 'mv /var/www/html/wordpress/wp-config-sample.php /var/www/html/wordpress/wp-config.php creates=/var/www/html/wordpress/wp-config.php'
   become: true
 
-- name: Update wordpress config file
+- name: update wordpress config file
   lineinfile:
-   dest:"/var/www/html/wordpress/wp-config.php"
-   regexp:'{{ item.regexp }}'
-   line:'{{ item.line }}'
+   path: "/var/www/html/wordpress/wp-config.php"
+   regexp: '{{ item.regexp }}'
+   line: '{{ item.line }}'
   with_items:
    - {'regexp': "define\\('DB_NAME', '(.)+'\\);", 'line': "define('DB_NAME', '{{wp_mysql_db}}');"}
    - {'regexp': "define\\('DB_USER', '(.)+'\\);", 'line': "define('DB_USER', '{{wp_mysql_user}}');"}
