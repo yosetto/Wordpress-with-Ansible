@@ -2,12 +2,16 @@
 # tasks file for php
 - name: install software-properties-common
   apt: name=software-properties-common
+  become: true
 - name: add ppa repository for php 7.4
   apt_repository: 'repo="ppa:ondrej/php"'
+  become: true
 - name: update apt repositories
   apt: update_cache=yes
+  become: true
 - name: install php 7.4
   apt: name=php7.4 state=present
+  become: true
 - name: install php dependencies for LAMP stack
   apt:
     pkg:
@@ -28,3 +32,4 @@
       - libapache2-mod-php
     state: present
     update_cache: 'yes'
+  become: true
