@@ -8,12 +8,12 @@
   become: true
 
 - name: copy wordpress sample config file
-  command: 'mv /var/www/wordpress/wp-config-sample.php /var/www/wordpress/wp-config.php creates=/var/www/wordpress/wp-config.php'
+  command: 'mv /var/www/html/wordpress/wp-config-sample.php /var/www/html/wordpress/wp-config.php creates=/var/www/html/wordpress/wp-config.php'
   become: true
 
 - name: Update wordpress config file
   lineinfile:
-   dest:"/var/www/wordpress/wp-config.php"
+   dest:"/var/www/html/wordpress/wp-config.php"
    regexp:'{{ item.regexp }}'
    line:'{{ item.line }}'
   with_items:
