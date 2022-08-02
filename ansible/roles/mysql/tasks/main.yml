@@ -13,10 +13,15 @@
     state: present
   become: true
 - name: Create mysql database
-  mysql_db: 'name={{ wp_mysql_db }} state=present'
+  mysql_db: 
+    name: "{{ wp_mysql_db }}"
+    state: present
     login_unix_socket: /var/run/mysqld/mysqld.sock
   become: true
 - name: Create mysql user
-  mysql_user: 'name={{ wp_mysql_user }}  password={{ wp_mysql_password }}  priv=*.*:ALL'
+  mysql_user:
+    name: "{{ wp_mysql_user }}"
+    password: "{{ wp_mysql_password }}"
+    priv: '*.*:ALL'
     login_unix_socket: /var/run/mysqld/mysqld.sock
   become: true
