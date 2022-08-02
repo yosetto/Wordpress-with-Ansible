@@ -7,7 +7,7 @@
    remote_src: yes
   become: true
 
-- name: Wordpress | Change ownership of installation directory
+- name: change ownership of installation directory
   file:
     path: "/var/www/html/wordpress"
     owner: www-data
