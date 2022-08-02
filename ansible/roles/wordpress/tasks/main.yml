@@ -3,7 +3,8 @@
 - name: download and extract wordpress in apache2 public directory
   unarchive: 
    src: "https://wordpress.org/latest.tar.gz" 
-   dest: "/var/www/html" 
+   dest: "/var/www/html"
+   remote_src: yes
   become: true
 
 - name: copy wordpress sample config file
