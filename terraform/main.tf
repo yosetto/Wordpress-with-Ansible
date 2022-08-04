@@ -65,11 +65,11 @@ resource "aws_instance" "wordpress" {
    subnet_id              = "${element(module.vpc.public_subnets,count.index)}"
    
    provisioner "local-exec" {
-     command = 'echo ${self.public_ip} > "../ansible/hosts"'
+     command = "echo ${self.public_ip} > '../ansible/hosts'"
    }
    
    provisioner "local-exec" {
-     command = '"host_key_checking = False" >> "../ansible/ansible.cfg"'
+     command = "'host_key_checking = False' >> '../ansible/ansible.cfg'"
    }
 
   provisioner "local-exec" {
