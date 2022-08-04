@@ -69,7 +69,7 @@ resource "aws_instance" "wordpress" {
    }
    
    provisioner "local-exec" {
-     command = "echo 'host_key_checking = False' >> '../ansible/ansible.cfg'"
+     command = "echo 'host_key_checking = False' > '../ansible/ansible.cfg'"
    }
 
   provisioner "local-exec" {
