@@ -20,7 +20,7 @@ resource "aws_security_group" "allow_ports" {
        cidr_blocks = ["0.0.0.0/0"]
    }
 
-   # HTTP access for Jenkins
+   # HTTP access for apache2 which hosts wordpress
    ingress {
        from_port   = 80
        to_port     = 80
@@ -55,13 +55,24 @@ resource "aws_key_pair" "generated_key" {
   }
 }
 
-resource "aws_instance" "jenkins" {
+
+resource "aws_instance" "wordpress" {
    instance_type          = "${var.instance_type}"
    ami                    = "${lookup(var.aws_amis, var.aws_region)}"
    count                  = "${var.instance_count}"
    key_name               = aws_key_pair.generated_key.key_name
    vpc_security_group_ids = ["${aws_security_group.allow_ports.id}"]
    subnet_id              = "${element(module.vpc.public_subnets,count.index)}"
-   user_data              = "${file("scripts/init.sh")}"
+   
+   provisioner "local-exec" {
+     command = 'echo ${self.public_ip} > "../ansible/hosts"'
+   }
+   
+   provisioner "local-exec" {
+     command = '"host_key_checking = False" >> "../ansible/ansible.cfg"'
+   }
 
+  provisioner "local-exec" {
+    command = "ansible-playbook -i ../ansible/hosts --private_key ./'${aws_key_pair.generated_key_name}'.pem ../ansible/playbook.yml"
+  }
 }
