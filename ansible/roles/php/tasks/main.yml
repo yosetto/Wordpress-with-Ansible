@@ -12,8 +12,7 @@
   
 - name: install php dependencies for LAMP stack
   apt:
-    pkg:
-      pkg: ['php-pear', 'php-fpm', 'php-dev', 'php-zip', 'php-curl',
+    pkg: ['php-pear', 'php-fpm', 'php-dev', 'php-zip', 'php-curl',
           'php-xmlrpc', 'php-gd', 'php-mysql', 'php-mbstring', 'php-xml', 'php-mysql']
     state: present
     update_cache: 'yes'
