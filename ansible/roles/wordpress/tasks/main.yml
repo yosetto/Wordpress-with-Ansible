@@ -11,11 +11,13 @@
   file:
     path: /var/www/html/index.html
     state: absent
+  become: true
 
 - name: move files to /var/www/html/
   command: cp -rf . "/var/www/html/"
   args:
     chdir: "/var/www/html/wordpress/"
+  become: true
     
 - name: change ownership of installation directory
   file:
@@ -30,6 +32,7 @@
   file:
     path: "/var/www/html/wordpress/"
     state: absent
+  become: true
     
 - name: copy wordpress sample config file
   command: 'mv /var/www/html/wp-config-sample.php /var/www/html/wp-config.php creates=/var/www/html/wp-config.php'
