@@ -73,6 +73,6 @@ resource "aws_instance" "wordpress" {
    }
 
   provisioner "local-exec" {
-    command = "ansible-playbook -i ../ansible/hosts --private_key ./'${var.generated_key_name}'.pem ../ansible/playbook.yml"
+    command = "ansible-playbook -i ../ansible/hosts --private-key ./${var.generated_key_name}.pem ../ansible/playbook.yml"
   }
 }
