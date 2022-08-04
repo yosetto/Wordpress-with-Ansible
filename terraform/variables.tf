@@ -30,6 +30,11 @@ variable "instance_type" {
    default     = "t2.micro"
 }
 
+variable "ssh_user" {
+   description = "Default user for EC2 instance."
+   default     = "ubuntu"
+}
+
 variable "generated_key_name" {
   type        = string
   default     = "tf-key-pair"
