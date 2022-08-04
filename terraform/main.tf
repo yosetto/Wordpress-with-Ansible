@@ -47,11 +47,11 @@ resource "aws_key_pair" "generated_key" {
   public_key = tls_private_key.dev_key.public_key_openssh
 
   provisioner "local-exec" {    # Generate "terraform-key-pair.pem"
-    command = "echo '${tls_private_key.dev_key.private_key_pem}' > ./'${var.generated_key_name}'.pem"
+    command = "sudo echo '${tls_private_key.dev_key.private_key_pem}' > ./'${var.generated_key_name}'.pem"
   }
 
   provisioner "local-exec" {
-    command = "chmod 400 ./'${var.generated_key_name}'.pem"
+    command = "sudo chmod 400 ./'${var.generated_key_name}'.pem"
   }
 }
 
@@ -65,11 +65,11 @@ resource "aws_instance" "wordpress" {
    subnet_id              = "${element(module.vpc.public_subnets,count.index)}"
    
    provisioner "local-exec" {
-     command = "echo ${self.public_ip} > '../ansible/hosts'"
+     command = "sudo echo ${self.public_ip} > '../ansible/hosts'"
    }
    
    provisioner "local-exec" {
-     command = "echo 'host_key_checking = False' >> '../ansible/ansible.cfg'"
+     command = "sudo echo 'host_key_checking = False' >> '../ansible/ansible.cfg'"
    }
 
   provisioner "local-exec" {
