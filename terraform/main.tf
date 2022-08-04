@@ -65,7 +65,7 @@ resource "aws_instance" "wordpress" {
    subnet_id              = "${element(module.vpc.public_subnets,count.index)}"
    
    provisioner "local-exec" {
-     command = "echo ${self.public_ip} > '../ansible/hosts'"
+     command = "echo ${self.public_ip} ansible_user=${var.ssh_user} > '../ansible/hosts'"
    }
    
    provisioner "local-exec" {
