@@ -68,8 +68,8 @@ resource "aws_instance" "wordpress" {
    connection {
       type = "ssh"
       host = self.public_ip
-      user = ${var.ssh_user}
-      private_key = file(/home/labsuser/Wordpress-with-Ansible/terraform/${var.generated_key_name}.pem)
+      user = "${var.ssh_user}"
+      private_key = file("/home/labsuser/Wordpress-with-Ansible/terraform/${var.generated_key_name}.pem")
       timeout = "4m"
    }
 
