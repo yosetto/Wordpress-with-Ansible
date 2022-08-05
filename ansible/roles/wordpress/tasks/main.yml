@@ -43,7 +43,7 @@
     dest: "/var/www/html/wp-config.php"
   become: true
   
-  - name: change ownership of installation directory
+- name: change ownership of installation directory
   file:
     path: "/var/www/html"
     owner: www-data
