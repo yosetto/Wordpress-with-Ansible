@@ -6,12 +6,16 @@
 - name: add ppa repository for php 7.4
   apt_repository: 'repo="ppa:ondrej/php"'
   become: true
+  
 - name: update apt repositories
   apt: update_cache=yes
   become: true
+  
 - name: install php 7.4
-  apt: name=php7.4 state=present
+  apt: name=php7.4
+  state: present
   become: true
+  
 - name: install php dependencies for LAMP stack
   apt:
     pkg:
