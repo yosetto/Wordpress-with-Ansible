@@ -12,8 +12,7 @@
   become: true
   
 - name: install php 7.4
-  apt: name=php7.4
-  state: present
+  apt: name=php7.4 state=present
   become: true
   
 - name: install php dependencies for LAMP stack
