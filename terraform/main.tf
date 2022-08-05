@@ -65,6 +65,20 @@ resource "aws_instance" "wordpress" {
    vpc_security_group_ids = ["${aws_security_group.allow_ports.id}"]
    subnet_id              = "${element(module.vpc.public_subnets,count.index)}"
    
+   connection {
+      type = "ssh"
+      host = self.public_ip
+      user = ${var.ssh_user}
+      private_key = file(/home/labsuser/Wordpress-with-Ansible/terraform/${var.generated_key_name}.pem)
+      timeout = "4m"
+   }
+
+
+   provisioner "remote-exec" {
+      inline = [
+         "echo 'Wait for SSH connection...'"
+      ]
+   }
    
    provisioner "local-exec" {
      command = "echo ${self.public_ip} ansible_user=${var.ssh_user} > '/home/labsuser/Wordpress-with-Ansible/ansible/hosts'"
