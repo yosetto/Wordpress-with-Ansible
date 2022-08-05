@@ -67,10 +67,6 @@ resource "aws_instance" "wordpress" {
    provisioner "local-exec" {
      command = "echo ${self.public_ip} ansible_user=${var.ssh_user} > '../ansible/hosts'"
    }
-   
-   provisioner "local-exec" {
-     command = "echo 'host_key_checking = False' > '../ansible/ansible.cfg'"
-   }
 
   provisioner "local-exec" {
     command = "ansible-playbook -i ../ansible/hosts --user ${var.ssh_user} --private-key ./${var.generated_key_name}.pem ../ansible/playbook.yml"
