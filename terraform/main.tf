@@ -47,11 +47,11 @@ resource "aws_key_pair" "generated_key" {
   public_key = tls_private_key.dev_key.public_key_openssh
   
    provisioner "local-exec" {    # Generate "terraform-key-pair.pem"
-      command = "echo '${tls_private_key.dev_key.private_key_pem}' > /home/labsuser/Wordpress-with-Ansible/terraform/${var.generated_key_name}.pem"
+      command = "echo '${tls_private_key.dev_key.private_key_pem}' > ${var.project_path}/terraform/${var.generated_key_name}.pem"
    }
 
    provisioner "local-exec" {
-      command = "chmod 400 /home/labsuser/Wordpress-with-Ansible/terraform/${var.generated_key_name}.pem"
+      command = "chmod 400 ${var.project_path}/terraform/${var.generated_key_name}.pem"
    }
 
 }
@@ -69,7 +69,7 @@ resource "aws_instance" "wordpress" {
       type = "ssh"
       host = self.public_ip
       user = "${var.ssh_user}"
-      private_key = file("/home/labsuser/Wordpress-with-Ansible/terraform/${var.generated_key_name}.pem")
+      private_key = file("${var.project_path}/terraform/${var.generated_key_name}.pem")
       timeout = "4m"
    }
 
@@ -81,10 +81,10 @@ resource "aws_instance" "wordpress" {
    }
    
    provisioner "local-exec" {
-     command = "echo ${self.public_ip} ansible_user=${var.ssh_user} > '/home/labsuser/Wordpress-with-Ansible/ansible/hosts'"
+     command = "echo ${self.public_ip} ansible_user=${var.ssh_user} > '${var.project_path}/ansible/hosts'"
    }
 
   provisioner "local-exec" {
-    command = "ansible-playbook -i /home/labsuser/Wordpress-with-Ansible/ansible/hosts --user ${var.ssh_user} --private-key /home/labsuser/Wordpress-with-Ansible/terraform/${var.generated_key_name}.pem /home/labsuser/Wordpress-with-Ansible/ansible/playbook.yml"
+    command = "ansible-playbook -i ${var.project_path}/ansible/hosts --user ${var.ssh_user} --private-key ${var.project_path}/terraform/${var.generated_key_name}.pem ${var.project_path}/ansible/playbook.yml"
   }
 }
