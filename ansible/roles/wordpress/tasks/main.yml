@@ -18,8 +18,32 @@
   args:
     chdir: "/var/www/html/wordpress/"
   become: true
+  
+- name: remove wordpress dir
+  file:
+    path: "/var/www/html/wordpress/"
+    state: absent
+  become: true
+  
+- name: fetch random salts for wp-config.php
+  delegate_to: localhost
+  uri:
+    url: https://api.wordpress.org/secret-key/1.1/salt/
+    return_content: yes
+  become: False
+  register: 'wp_salt_array'
+
+- name: set wp_salt fact
+  set_fact:
+    wp_salt: '{{ wp_salt_array.content }}'
     
-- name: change ownership of installation directory
+- name: copy wp-config.php file
+  template:
+    src: wp-config.php.j2
+    dest: "/var/www/html/wp-config.php"
+  become: true
+  
+  - name: change ownership of installation directory
   file:
     path: "/var/www/html"
     owner: www-data
@@ -27,17 +51,5 @@
     mode: 0755
     state: directory
     recurse: yes
-  become: true
-  
-- name: remove wordpress dir
-  file:
-    path: "/var/www/html/wordpress/"
-    state: absent
-  become: true
-    
-- name: copy wp-config.php file
-  template:
-    src: wp-config.php.j2
-    dest: "/var/www/html/wp-config.php"
   become: true
 
